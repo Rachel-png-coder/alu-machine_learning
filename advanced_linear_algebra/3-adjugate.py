@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """
-Module to calculate the cofactor matrix of a square matrix.
+Module to calculate the adjugate matrix of a given square matrix.
 """
 
 
-def cofactor(matrix):
+def adjugate(matrix):
     """
-    Calculate the cofactor matrix of a given square matrix.
+    Calculate the adjugate matrix of a given square matrix.
 
     Args:
         matrix: A list of lists representing a square matrix
 
     Returns:
-        The cofactor matrix (a list of lists)
+        The adjugate matrix (a list of lists)
 
     Raises:
         TypeError: If matrix is not a list of lists
@@ -29,14 +29,14 @@ def cofactor(matrix):
 
     n = len(matrix)
 
-    # Handle 1x1 matrix case
+    # Handle 1x1 matrix case (special case)
     if n == 1:
-        return [[1]]  # Cofactor of 1x1 matrix is defined as [[1]]
+        return [[1]]
 
-    # First calculate the minor matrix
-    minor_matrix = []
+    # First calculate the cofactor matrix
+    cofactor_matrix = []
     for i in range(n):
-        minor_row = []
+        cofactor_row = []
         for j in range(n):
             # Create submatrix by excluding row i and column j
             submatrix = [row[:j] + row[j + 1:]
@@ -44,24 +44,24 @@ def cofactor(matrix):
 
             # Calculate determinant of the submatrix
             det = determinant(submatrix)
-            minor_row.append(det)
-        minor_matrix.append(minor_row)
 
-    # Then apply the sign pattern to get the cofactor matrix
-    cofactor_matrix = []
-    for i in range(n):
-        cofactor_row = []
-        for j in range(n):
+            # Apply sign (-1)^(i+j)
             sign = (-1) ** (i + j)
-            cofactor_row.append(sign * minor_matrix[i][j])
+            cofactor_row.append(sign * det)
         cofactor_matrix.append(cofactor_row)
 
-    return cofactor_matrix
+    # The adjugate is the transpose of the cofactor matrix
+    adjugate_matrix = [[0 for _ in range(n)] for _ in range(n)]
+    for i in range(n):
+        for j in range(n):
+            adjugate_matrix[j][i] = cofactor_matrix[i][j]
+
+    return adjugate_matrix
 
 
 # Helper function - determinant calculation
 def determinant(matrix):
-    """Calculate determinant of a matrix (used in cofactor calculation)"""
+    """Calculate determinant of a matrix (used in adjugate calculation)"""
     if not isinstance(matrix, list) or not all(
             isinstance(row, list) for row in matrix):
         raise TypeError("matrix must be a list of lists")
