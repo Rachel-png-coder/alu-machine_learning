@@ -16,4 +16,14 @@ def add_arrays(arr1, arr2):
     # Check if both arrays are of the same length
     if len(arr1) != len(arr2):
         return None
-    return [a + b for a, b in zip(arr1, arr2)]
+    return [a + b for a, b in zip(arr1, arr2#!/usr/bin/env python3
+"""getting the shape of a matrix"""
+
+
+def matrix_shape(matrix):
+    """Calculating the shape of a matrix"""
+    shape = []
+    while isinstance(matrix, list):
+        shape.append(len(matrix))
+        matrix = matrix[0]
+    return shape)]
