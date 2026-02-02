@@ -1,29 +1,24 @@
 #!/usr/bin/env python3
 """
-Adds two arrays element-wise.
+Calculates the transpose of a matrix.
 """
 
 
-def add_arrays(arr1, arr2):
+def matrix_transpose(matrix):
     """
-    Adds two arrays element-wise.
-    Args:
-        arr1 (list of int/float): First array.
-        arr2 (list of int/float): Second array.
-    Returns:
-        list of int/float: Resultant array after addition.
+    Transposes a matrix.
+
     """
-    # Check if both arrays are of the same length
-    if len(arr1) != len(arr2):
-        return None
-    return [a + b for a, b in zip(arr1, arr2#!/usr/bin/env python3
-"""getting the shape of a matrix"""
+    # Get the number of rows and cols
+    rows = len(matrix)
+    cols = len(matrix[0])
 
+    # Create a new matri to create a new transpose
+    transposed = []
 
-def matrix_shape(matrix):
-    """Calculating the shape of a matrix"""
-    shape = []
-    while isinstance(matrix, list):
-        shape.append(len(matrix))
-        matrix = matrix[0]
-    return shape)]
+    for col in range(cols):
+        new_row = []
+        for row in range(rows):
+            new_row.append(matrix[row][col])
+        transposed.append(new_row)
+    return transposed
