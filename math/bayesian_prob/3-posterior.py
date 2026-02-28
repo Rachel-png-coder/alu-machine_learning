@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-""""Function that calculates the marginal
-probability of obtaining the data"""
+""""Function  that calculates the posterior
+probability for the various hypothetical probabilities
+of developing severe side effects given the data"""
 
 import numpy as np
 
 
-def marginal(x, n, P, Pr):
-    """"Function that calculates the marginal
-    probability of obtaining the data"""
+def posterior(x, n, P, Pr):
+    """""Function  that calculates the posterior
+    probability for the various hypothetical probabilities
+    of developing severe side effects given the data"""
     if type(n) is not int or n <= 0:
         raise ValueError("n must be a positive integer")
     if type(x) is not int or x < 0:
@@ -30,4 +32,4 @@ def marginal(x, n, P, Pr):
     coeficient = num / den
     likehood = coeficient * (P ** x) * ((1 - P) ** (n - x))
     intersection = likehood * Pr
-    return np.sum(intersection)
+    return intersection / np.sum(intersection)
