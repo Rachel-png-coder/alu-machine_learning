@@ -42,10 +42,33 @@ class Neuron:
     def W(self):
         return self.__W
 
+    @W.setter
+    def W(self, value):
+        self.__W = value
+
     @property
     def b(self):
         return self.__b
 
+    @b.setter
+    def b(self, value):
+        self.__b = value
+
     @property
     def A(self):
+        return self.__A
+
+    def forward_prop(self, X):
+        """
+        Forward propagates the input data through the neuron.
+
+        Arguments:
+        X: numpy.ndarray - Input data with shape (nx, m).
+
+        Returns:
+        numpy.ndarray - The activated output of the neuron.
+        """
+        Z = np.matmul(self.W, X) + self.b
+        sigmoid = 1 / (1 + np.exp(-Z))
+        self.__A = sigmoid
         return self.__A
