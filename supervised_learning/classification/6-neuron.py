@@ -5,6 +5,7 @@ Neural Class
 
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Neuron:
@@ -115,3 +116,62 @@ class Neuron:
         dcost_db1 = np.sum(diff) / np.size(A)
         self.__W -= (alpha)*(dcost_dw1.T)
         self.__b -= (alpha)*(dcost_db1)
+
+    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
+        """
+        Trains the neuron using gradient descent.
+
+        Args:
+            X (numpy.ndarray): Input data with shape (nx, m).
+            Y (numpy.ndarray): Correct labels with shape (1, m).
+            iterations (int): Number of iterations for
+            training (default is 5000).
+            alpha (float): Learning rate (default is 0.05).
+
+        Returns:
+            tuple: A tuple containing labelized predictions and cost.
+        """
+        # Check if iterations is an integer and positive
+        if type(iterations) != int:
+            raise TypeError('iterations must be an integer')
+        if iterations <= 0:
+            raise ValueError('iterations must be a positive integer')
+
+        # Check if alpha is a float and positive
+        if type(alpha) != float:
+            raise TypeError('alpha must be a float')
+        if alpha <= 0:
+            raise ValueError('alpha must be positive')
+
+        # Check if step is an integer, positive, and less than or equal to iterations
+        if not isinstance(step, int):
+            raise TypeError("step must be an integer")
+        if step <= 0 or step > iterations:
+            raise ValueError("step must be positive and <= iterations")
+            
+        costs = []
+        # Iterate over the specified number of iterations
+        for iteration in range(iterations):
+            # Forward propagate to calculate the activated output
+            A = self.forward_prop(X)
+
+            # Calculate cost and store for plotting
+            cost = self.cost(Y, A)
+            costs.append(cost)
+     
+            self.gradient_descent(X, Y, A, alpha)
+
+            # Print verbose information every 'step' iterations
+            if verbose and iteration % step == 0:
+                print(f"Cost after {iteration} iterations: {cost}")
+
+        # Plot training cost if graph is True
+        if graph:
+            plt.plot(range(0, iterations + 1, step), costs, 'b-')
+            plt.xlabel('Iteration')
+            plt.ylabel('Cost')
+            plt.title('Training Cost')
+            plt.show()
+
+        # Evaluate the model on the training data
+        return self.evaluate(X, Y)
