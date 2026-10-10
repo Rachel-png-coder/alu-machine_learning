@@ -1,38 +1,32 @@
 #!/usr/bin/env python3
+
 """
-Module for initializing centroids for the K-means clustering algorithm.
+This module contains the initialization of
+the cluster centroids for k-means
 """
+
 import numpy as np
 
 
 def initialize(X, k):
-   """
-    Initialize K-means centroids using random sampling.
-
-    The centroids are sampled from a uniform distribution bounded by
-    the minimum and maximum values of each feature in the dataset.
-
-    Args:
-        X (numpy.ndarray): Input data of shape (n, d), where n is the
-            number of data points and d is the number of features.
-        k (int): Number of centroids to initialize. Must be positive.
-
-    Returns:
-        numpy.ndarray: Randomly initialized centroids of shape (k, d).
-        None: If the input data is invalid or k is not a positive integer.
     """
-    if not isinstance(X, np.ndarray) or X.ndim != 2:
+    Initializes cluster centroids for K-means
+
+    X: numpy.ndarray (n, d) containing the dataset that
+    will be used for K-means clustering
+        - n no. of data points
+        - d no. of dimensions for each data point
+    k: positive integer - the no. of clusters
+    return: numpy.ndarray (k, d) containing the initialized
+    centroids for each cluster, or None on failure
+    """
+    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None
     if not isinstance(k, int) or k <= 0:
         return None
 
-    min_vals = np.min(X, axis=0)
-    max_vals = np.max(X, axis=0)
+    n, d = X.shape
+    min_val = X.min(axis=0)
+    max_val = X.max(axis=0)
 
-    centroids = np.random.uniform(
-        min_vals,
-        max_vals,
-        size=(k, X.shape[1])
-    )
-
-    return centroids
+    return np.random.uniform(min_val, max_val, size=(k, d))
